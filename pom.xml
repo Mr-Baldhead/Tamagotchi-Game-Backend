@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Project Information -->
+    <groupId>com.Jorlindstrom</groupId>
+    <artifactId>tamagotchi-api</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+
+    <name>Tamagotchi Virtual Pet API</name>
+    <description>
+        RESTful Tamagotchi game using Jakarta EE 10, JAX-RS, CDI, and Bean Validation.
+        Players can create, care for, and interact with virtual pets.
+    </description>
+
+    <!-- Properties - ALL versions defined here -->
+    <properties>
+        <!-- Encoding -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.report.sourceEncoding>UTF-8</project.report.sourceEncoding>
+
+        <!-- Java version -->
+        <maven.compiler.release>21</maven.compiler.release>
+
+        <!-- Jakarta EE -->
+        <jakartaee-api.version>10.0.0</jakartaee-api.version>
+
+        <!-- WildFly -->
+        <wildfly.version>35.0.1.Final</wildfly.version>
+
+        <!-- Maven Plugin versions -->
+        <compiler-plugin.version>3.13.0</compiler-plugin.version>
+        <war-plugin.version>3.4.0</war-plugin.version>
+        <wildfly-plugin.version>5.0.1.Final</wildfly-plugin.version>
+
+        <!-- Testing dependencies (optional) -->
+        <junit.jupiter.version>5.13.4</junit.jupiter.version>
+        <assertj.core.version>3.27.6</assertj.core.version>
+        <mockito.version>5.20.0</mockito.version>
+    </properties>
+
+    <dependencies>
+        <!-- Jakarta EE 10 Core API (includes JAX-RS, CDI, JSON-B, etc.) -->
+        <dependency>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-core-api</artifactId>
+            <version>${jakartaee-api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Bean Validation API (for @Valid, @NotBlank, etc.) -->
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>3.0.2</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Hibernate Validator (Bean Validation implementation) -->
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>8.0.1.Final</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Optional: Testing dependencies -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.core.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <!-- Output filename: tamagotchi.war -->
+        <finalName>tamagotchi</finalName>
+
+        <plugins>
+            <!-- Maven Compiler Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${compiler-plugin.version}</version>
+                <configuration>
+                    <release>${maven.compiler.release}</release>
+                </configuration>
+            </plugin>
+
+            <!-- Maven WAR Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${war-plugin.version}</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+
+            <!-- WildFly Maven Plugin -->
+            <!-- Execute 'mvn clean package wildfly:deploy' to deploy to running WildFly -->
+            <!-- Execute 'mvn clean wildfly:run' to start WildFly and deploy automatically -->
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>${wildfly-plugin.version}</version>
+                <configuration>
+                    <version>${wildfly.version}</version>
+                    <server-config>standalone.xml</server-config>
+                    <javaOpts>-Djava.security.manager=disallow</javaOpts>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
